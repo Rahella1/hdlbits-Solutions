@@ -1,0 +1,18 @@
+module top_module(
+    input clk,
+    input load,
+    input [511:0] data,
+    output reg [511:0] q
+);
+
+    always @(posedge clk) begin
+        if (load) begin
+            q <= data;
+        end else begin
+            // For interior cells: q[i] <= q[i+1] ^ q[i-1]
+            // Boundaries q[-1] and q[512] are constant 1'b0
+            q <= {1'b0, q[511:1]} ^ {q[510:0], 1'b0};
+        end
+    end
+
+endmodule
