@@ -1,0 +1,23 @@
+module top_module (
+    input [3:1] y,
+    input w,
+    output Y2
+);
+
+    reg [3:1] Y;
+
+    always @(*) begin
+        case (y)
+            3'b000:  Y = w ? 3'b000 : 3'b001; // A -> w? A : B
+            3'b001:  Y = w ? 3'b011 : 3'b010; // B -> w? D : C
+            3'b010:  Y = w ? 3'b011 : 3'b100; // C -> w? D : E
+            3'b011:  Y = w ? 3'b000 : 3'b101; // D -> w? A : F
+            3'b100:  Y = w ? 3'b011 : 3'b100; // E -> w? D : E
+            3'b101:  Y = w ? 3'b011 : 3'b010; // F -> w? D : C
+            default: Y = 3'b000;
+        endcase
+    end
+
+    assign Y2 = Y[2];
+
+endmodule
